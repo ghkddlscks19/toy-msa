@@ -1,9 +1,9 @@
+server:
+  port: 0
+
 spring:
   application:
     name: my-second-service
-
-server:
-  port: 8082
 
 eureka:
   client:

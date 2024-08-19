@@ -1,9 +1,9 @@
+server:
+  port: 0
+
 spring:
   application:
     name: my-first-service
-
-server:
-  port: 8081
 
 eureka:
   client:
