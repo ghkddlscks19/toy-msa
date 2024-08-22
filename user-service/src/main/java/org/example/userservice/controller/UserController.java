@@ -1,6 +1,7 @@
 package org.example.userservice.controller;
 
 import org.example.userservice.dto.UserDto;
+import org.example.userservice.entity.UserEntity;
 import org.example.userservice.service.UserService;
 import org.example.userservice.vo.Greeting;
 import org.example.userservice.vo.RequestUser;
@@ -11,6 +12,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user-service")
@@ -49,5 +53,28 @@ public class UserController {
         ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<ResponseUser>> getUsers() {
+        Iterable<UserEntity> users = userService.getUserbyAll();
+
+        List<ResponseUser> result = new ArrayList<>();
+
+        users.forEach(v -> {
+            result.add(new ModelMapper().map(v, ResponseUser.class));
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<ResponseUser> getUser(@PathVariable("userId") String userId) {
+        UserDto findUser = userService.getUserById(userId);
+        ResponseUser result = new ModelMapper().map(findUser, ResponseUser.class);
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+
     }
 }
