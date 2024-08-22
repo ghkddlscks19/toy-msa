@@ -1,9 +1,9 @@
 package org.example.userservice.controller;
 
 import org.example.userservice.dto.UserDto;
-import org.example.userservice.entity.UserEntity;
 import org.example.userservice.service.UserService;
 import org.example.userservice.vo.Greeting;
+import org.example.userservice.vo.RequestUser;
 import org.example.userservice.vo.ResponseUser;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<ResponseUser> createUser(@RequestBody UserEntity user) {
+    public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
