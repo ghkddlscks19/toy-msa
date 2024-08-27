@@ -9,6 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,7 +39,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/**").access(
-                                new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1') or hasIpAddress('192.168.219.102')")));
+                                new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1') or hasIpAddress('192.168.219.102') or hasIpAddress('172.20.10.2')")));
         http
                 .addFilter(getAuthenticationFilter());
         http
@@ -53,11 +54,12 @@ public class SecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
-    private AuthenticationFilter getAuthenticationFilter() throws Exception{
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+    public AuthenticationFilter getAuthenticationFilter() throws Exception{
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 new AuthenticationManagerBuilder(objectPostProcessor);
-        authenticationFilter.setAuthenticationManager(authenticationManager(authenticationManagerBuilder));
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(
+                authenticationManager(authenticationManagerBuilder), userService, env);
+
         return authenticationFilter;
     }
 

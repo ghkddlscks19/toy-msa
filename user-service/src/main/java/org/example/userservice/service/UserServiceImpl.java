@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
             throw new UsernameNotFoundException(username);
         }
 
-        return new User(findUser.getName(), findUser.getEncryptedPassword(),
+        return new User(findUser.getEmail(), findUser.getEncryptedPwd(),
                 true, true, true, true,
                 new ArrayList<>());
     }
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService{
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         UserEntity userEntity = mapper.map(userDto, UserEntity.class);
-        userEntity.setEncryptedPassword(passwordEncoder.encode(userDto.getPwd()));
+        userEntity.setEncryptedPwd(passwordEncoder.encode(userDto.getPwd()));
 
         userRepository.save(userEntity);
 
@@ -78,5 +78,22 @@ public class UserServiceImpl implements UserService{
     @Override
     public Iterable<UserEntity> getUserbyAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public UserDto getUserDetailsByEmail(String email) {
+        UserEntity findUser = userRepository.findByEmail(email);
+
+        if(findUser == null) {
+            throw new UsernameNotFoundException(email);
+        }
+
+        log.debug("user={}", findUser);
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        UserDto userDto = mapper.map(findUser, UserDto.class);
+        log.debug("userDto={}", userDto);
+
+        return userDto;
     }
 }
