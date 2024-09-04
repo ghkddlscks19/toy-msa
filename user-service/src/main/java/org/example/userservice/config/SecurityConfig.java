@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .csrf((csrf) -> csrf.disable());
         http
                 .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/**").access(
                                 new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1') or hasIpAddress('192.168.219.102') or hasIpAddress('172.20.10.2')")));
         http

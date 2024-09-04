@@ -18,6 +18,11 @@ spring:
     url: jdbc:h2:mem::testdb
     username: sa
     password:
+  cloud:
+    config:
+      name: ecommerce
+  config:
+    import: optional:configserver:http://localhost:8888
 
 eureka:
   instance:
@@ -35,6 +40,12 @@ logging:
   level:
     org.example.userservice: DEBUG
 
-token:
-  expiration_time: 86400000
-  secret: ghkddlscksdmlxhdlmsavmfhwprxmtlzmfltzldlqslekrlfdlrkqnwhrgotjejrlfrpwkrtjdgkqslekghkddlscksdmlxhdlmsavmfhwprxmtlzmfltzldlqslekrlfdlrkqnwhrgotjejrlfrpwkrtjdgkqslek
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+#token:
+#  expiration_time: 86400000
+#  secret: ghkddlscksdmlxhdlmsavmfhwprxmtlzmfltzldlqslekrlfdlrkqnwhrgotjejrlfrpwkrtjdgkqslekghkddlscksdmlxhdlmsavmfhwprxmtlzmfltzldlqslekrlfdlrkqnwhrgotjejrlfrpwkrtjdgkqslek
