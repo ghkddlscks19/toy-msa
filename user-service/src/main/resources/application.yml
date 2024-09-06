@@ -20,7 +20,7 @@ spring:
     password:
   cloud:
     config:
-      name: ecommerce-dev
+      name: ecommerce
   profiles:
     active: dev
   config:
