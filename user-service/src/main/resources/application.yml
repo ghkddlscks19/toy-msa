@@ -20,7 +20,9 @@ spring:
     password:
   cloud:
     config:
-      name: ecommerce
+      name: ecommerce-dev
+  profiles:
+    active: dev
   config:
     import: optional:configserver:http://localhost:8888
 

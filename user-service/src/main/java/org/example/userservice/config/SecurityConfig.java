@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/**").access(
-                                new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1') or hasIpAddress('192.168.219.102') or hasIpAddress('172.20.10.2')")));
+                                new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1') or hasIpAddress('192.168.219.102') or hasIpAddress('172.30.1.85')")));
         http
                 .addFilter(getAuthenticationFilter());
         http

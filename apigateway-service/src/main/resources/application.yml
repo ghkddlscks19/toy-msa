@@ -57,6 +57,14 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
           predicates:
@@ -78,7 +86,20 @@ spring:
                 baseMessage: Hi, there.
                 preLogger: true
                 postLogger: true
+    config:
+      name: ecommerce
+  profiles:
+    active: dev
+  config:
+    import: optional:configserver:http://localhost:8888
 
-token:
-  secret: ghkddlscksdmlxhdlmsavmfhwprxmtlzmfltzldlqslekrlfdlrkqnwhrgotjejrlfrpwkrtjdgkqslekghkddlscksdmlxhdlmsavmfhwprxmtlzmfltzldlqslekrlfdlrkqnwhrgotjejrlfrpwkrtjdgkqslek
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
+#token:
+#  secret: ghkddlscksdmlxhdlmsavmfhwprxmtlzmfltzldlqslekrlfdlrkqnwhrgotjejrlfrpwkrtjdgkqslekghkddlscksdmlxhdlmsavmfhwprxmtlzmfltzldlqslekrlfdlrkqnwhrgotjejrlfrpwkrtjdgkqslek
 
